@@ -1,7 +1,7 @@
 'use client'
 
 import { useViewer } from '@pascal-app/viewer'
-import { Moon, Sun } from 'lucide-react'
+import { Calculator, Moon, Sun } from 'lucide-react'
 import { motion } from 'motion/react'
 import { type ReactNode, useEffect, useState } from 'react'
 import {
@@ -11,7 +11,7 @@ import {
 } from './../../../components/ui/primitives/tooltip'
 import { cn } from './../../../lib/utils'
 
-export type PanelId = 'site' | 'settings'
+export type PanelId = 'site' | 'settings' | 'estimate'
 
 interface IconRailProps {
   activePanel: PanelId
@@ -20,8 +20,9 @@ interface IconRailProps {
   className?: string
 }
 
-const panels: { id: PanelId; iconSrc: string; label: string }[] = [
+const panels: { id: PanelId; iconSrc?: string; icon?: React.ReactNode; label: string }[] = [
   { id: 'site', iconSrc: '/icons/level.png', label: 'Site' },
+  { id: 'estimate', icon: <Calculator className="h-5 w-5" />, label: 'Estimate' },
   { id: 'settings', iconSrc: '/icons/settings.png', label: 'Settings' },
 ]
 
@@ -60,14 +61,20 @@ export function IconRail({ activePanel, onPanelChange, appMenuButton, className 
                 onClick={() => onPanelChange(panel.id)}
                 type="button"
               >
-                <img
-                  alt={panel.label}
-                  className={cn(
-                    'h-6 w-6 object-contain transition-all',
-                    !isActive && 'opacity-50 saturate-0',
-                  )}
-                  src={panel.iconSrc}
-                />
+                {panel.iconSrc ? (
+                  <img
+                    alt={panel.label}
+                    className={cn(
+                      'h-6 w-6 object-contain transition-all',
+                      !isActive && 'opacity-50 saturate-0',
+                    )}
+                    src={panel.iconSrc}
+                  />
+                ) : (
+                  <span className={cn('transition-all', !isActive && 'opacity-50')}>
+                    {panel.icon}
+                  </span>
+                )}
               </button>
             </TooltipTrigger>
             <TooltipContent side="right">{panel.label}</TooltipContent>

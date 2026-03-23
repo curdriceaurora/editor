@@ -10,6 +10,7 @@ import {
 } from './../../../components/ui/primitives/sidebar'
 import { cn } from './../../../lib/utils'
 import { IconRail, type PanelId } from './icon-rail'
+import { EstimatePanel } from './panels/estimate-panel'
 import { SettingsPanel, type SettingsPanelProps } from './panels/settings-panel'
 import { SitePanel, type SitePanelProps } from './panels/site-panel'
 
@@ -29,7 +30,7 @@ export function AppSidebar({
   const [activePanel, setActivePanel] = useState<PanelId>('site')
 
   useEffect(() => {
-    // Widen default sidebar (288px → 432px) for better project title visibility
+    // Widen default sidebar (288px -> 432px) for better project title visibility
     const store = useSidebarStore.getState()
     if (store.width <= 288) {
       store.setWidth(432)
@@ -40,6 +41,8 @@ export function AppSidebar({
     switch (activePanel) {
       case 'site':
         return <SitePanel {...sitePanelProps} />
+      case 'estimate':
+        return <EstimatePanel />
       case 'settings':
         return <SettingsPanel {...settingsPanelProps} />
       default:
